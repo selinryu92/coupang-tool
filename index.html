@@ -363,19 +363,7 @@
     <p class="subtitle">상품 키워드 → 중국어 변환 → 레드노트/틱톡 영상 탐색 → 캡션 생성</p>
   </header>
 
-  <!-- STEP 0: API KEY -->
-  <div class="step" id="step0">
-    <div class="step-header">
-      <span class="step-num">00</span>
-      <span class="step-title">Anthropic API 키 설정</span>
-      <span class="badge pending" id="apiBadge">미설정</span>
-    </div>
-    <div class="input-row">
-      <input type="password" id="apiKeyInput" placeholder="sk-ant-api03-..." />
-      <button class="btn" onclick="saveApiKey()">저장</button>
-    </div>
-    <p class="hint">키는 브라우저에만 저장되며 외부로 전송되지 않아요. <a href="https://console.anthropic.com" target="_blank" style="color:var(--accent);">console.anthropic.com</a>에서 발급</p>
-  </div>
+
 
   <!-- STEP 1: 상품 키워드 -->
   <div class="step" id="step1">
@@ -469,14 +457,9 @@ function saveApiKey() {
 }
 
 async function callClaude(prompt) {
-  if (!apiKey) throw new Error('API 키를 먼저 설정해주세요.');
-  const res = await fetch('http://localhost:5000/api/messages', {
+  const res = await fetch('/api/claude', {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'x-api-key': apiKey,
-      'anthropic-version': '2023-06-01'
-    },
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       model: 'claude-haiku-4-5-20251001',
       max_tokens: 1000,
